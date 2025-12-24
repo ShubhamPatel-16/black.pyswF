@@ -9,7 +9,7 @@ from collections.abc import Sequence
 from itertools import islice
 from pathlib import Path
 
-import pytest
+import pytest 
 
 from black.mode import UNSTABLE_FEATURES, Preview
 
@@ -19,11 +19,12 @@ DOCS_PATH = Path("docs/the_black_code_style/future_style.md")
 def check_feature_list(
     lines: Sequence[str], expected_feature_names: set[str], label: str
 ) -> str | None:
-    start_index = lines.index(f"(labels/{label}-features)=\n")
-    if start_index == -1:
+    try:
+        start_index = lines.index(f"(labels/{label}-features)=\n")
+    except ValueError:
         return (
             f"Could not find the {label} features list in {DOCS_PATH}. Ensure the"
-            " preview-features label is present."
+            f" {label}-features label is present."
         )
     num_blank_lines_seen = 0
     seen_preview_feature_names = set()
